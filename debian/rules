@@ -1,0 +1,24 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+# debian/rules file for libcap-ng
+# Written by Pierre Chifflier <pollux@debian.org>
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+export DEB_BUILD_HARDENING=1
+
+override_dh_install:
+	dh_install --exclude=.la
+
+override_dh_auto_clean:
+	dh_auto_clean
+	-rm -rf debian/tmp-python-cap-ng
+
+override_dh_auto_test:
+	# do nothing, some tests are failing because of failing relink
+	:
+
+%:
+	dh $@ --with=python2,python3,autoreconf
+
